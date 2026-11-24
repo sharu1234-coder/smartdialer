@@ -1,0 +1,68 @@
+version: "3.9"
+
+services:
+  db:
+    image: postgres:18-alpine
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_DB: smartdialer
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+
+  db_test:
+    image: postgres:18-alpine
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_DB: smartdialer_test
+    ports:
+      - "5433:5432"
+    tmpfs:
+      - /var/lib/postgresql/data
+
+  app:
+    build: .
+    ports:
+      - "8000:8000"
+    environment:
+      DATABASE_URL: postgresql+psycopg2://postgres:postgres@db:5432/smartdialer
+    depends_on:
+      db:
+        condition: service_healthy
+    command: >
+      sh -c "python -m alembic upgrade head && python -m uvicorn app.main:app --host 0.0.0.0 --port 8000 --reload"
+
+  dial_worker:
+    build: .
+    environment:
+      DATABASE_URL: postgresql+psycopg2://postgres:postgres@db:5432/smartdialer
+    depends_on:
+      - app
+    command: python -m app.workers.dial_worker
+
+  event_worker:
+    build: .
+    environment:
+      DATABASE_URL: postgresql+psycopg2://postgres:postgres@db:5432/smartdialer
+    depends_on:
+      - app
+    command: python -m app.workers.event_worker
+
+  recovery_worker:
+    build: .
+    environment:
+      DATABASE_URL: postgresql+psycopg2://postgres:postgres@db:5432/smartdialer
+    depends_on:
+      - app
+    command: python -m app.workers.recovery_worker
+
+volumes:
+  postgres_data:

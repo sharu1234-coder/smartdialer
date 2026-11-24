@@ -1,0 +1,25 @@
+stateDiagram-v2
+    [*] --> OFFLINE
+    OFFLINE --> AVAILABLE : login / heartbeat
+    AVAILABLE --> RESERVED : reserve_agent (optimistic lock)
+    AVAILABLE --> PAUSED : supervisor pause
+    RESERVED --> DIALING : call INITIATED by event worker
+    RESERVED --> AVAILABLE : reservation expired (recovery worker)
+    DIALING --> CONNECTED : ANSWERED event received
+    DIALING --> AVAILABLE : FAILED / NO_ANSWER / BUSY event
+    CONNECTED --> WRAP_UP : COMPLETED event
+    WRAP_UP --> AVAILABLE : wrap-up timer expires
+    PAUSED --> AVAILABLE : resume
+    AVAILABLE --> OFFLINE : logout
+
+    note right of RESERVED
+        state_version incremented on reservation
+        reservation_expires_at = now() + 30s
+        RecoveryWorker releases stale reservations
+    end note
+
+    note right of DIALING
+        current_call_id set
+        agent.status synced by EventProcessor
+        when call event arrives
+    end note

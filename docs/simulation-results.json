@@ -1,0 +1,197 @@
+{
+  "generated": "2026-11-25",
+  "config": {
+    "agents": 10,
+    "borrowers": 100,
+    "duration_ticks": 160,
+    "sim_ticks_per_second": 10,
+    "simulated_seconds": 1600,
+    "seed": 42
+  },
+  "runs": [
+    {
+      "scenario": "A", "mode": "PROGRESSIVE", "provider": "provider_a",
+      "config": {"answer_rate": 0.20, "avg_talk_duration_secs": 120},
+      "calls_initiated": 224, "calls_connected": 31, "calls_completed": 31,
+      "calls_failed": 183, "calls_abandoned": 0,
+      "agent_utilization": 0.214, "actual_answer_rate": 0.145,
+      "avg_talk_duration_secs": 110.3, "provider_failures": 7, "duplicate_events": 5
+    },
+    {
+      "scenario": "A", "mode": "PREDICTIVE", "provider": "provider_a",
+      "config": {"answer_rate": 0.20, "avg_talk_duration_secs": 120},
+      "calls_initiated": 210, "calls_connected": 31, "calls_completed": 31,
+      "calls_failed": 170, "calls_abandoned": 0,
+      "agent_utilization": 0.217, "actual_answer_rate": 0.154,
+      "avg_talk_duration_secs": 111.9, "provider_failures": 8, "duplicate_events": 5,
+      "safety_reductions": 109
+    },
+    {
+      "scenario": "B", "mode": "PROGRESSIVE", "provider": "provider_a",
+      "config": {"answer_rate": 0.50, "avg_talk_duration_secs": 90},
+      "calls_initiated": 165, "calls_connected": 78, "calls_completed": 78,
+      "calls_failed": 77, "calls_abandoned": 0,
+      "agent_utilization": 0.414, "actual_answer_rate": 0.503,
+      "avg_talk_duration_secs": 84.9, "provider_failures": 5, "duplicate_events": 5
+    },
+    {
+      "scenario": "B", "mode": "PREDICTIVE", "provider": "provider_a",
+      "config": {"answer_rate": 0.50, "avg_talk_duration_secs": 90},
+      "calls_initiated": 159, "calls_connected": 73, "calls_completed": 73,
+      "calls_failed": 76, "calls_abandoned": 0,
+      "agent_utilization": 0.385, "actual_answer_rate": 0.490,
+      "avg_talk_duration_secs": 84.4, "provider_failures": 7, "duplicate_events": 4,
+      "safety_reductions": 98
+    },
+    {
+      "scenario": "C", "mode": "PROGRESSIVE", "provider": "provider_a",
+      "config": {"answer_rate": 0.70, "avg_talk_duration_secs": 180},
+      "calls_initiated": 49, "calls_connected": 31, "calls_completed": 31,
+      "calls_failed": 8, "calls_abandoned": 0,
+      "agent_utilization": 0.356, "actual_answer_rate": 0.795,
+      "avg_talk_duration_secs": 183.9, "provider_failures": 7, "duplicate_events": 0
+    },
+    {
+      "scenario": "C", "mode": "PREDICTIVE", "provider": "provider_a",
+      "config": {"answer_rate": 0.70, "avg_talk_duration_secs": 180},
+      "calls_initiated": 49, "calls_connected": 31, "calls_completed": 31,
+      "calls_failed": 8, "calls_abandoned": 0,
+      "agent_utilization": 0.356, "actual_answer_rate": 0.795,
+      "avg_talk_duration_secs": 183.9, "provider_failures": 7, "duplicate_events": 0,
+      "safety_reductions": 33
+    },
+    {
+      "scenario": "D", "mode": "PROGRESSIVE", "provider": "provider_a",
+      "config": {
+        "phases": [
+          {"ticks": "0-25%",  "answer_rate": 0.35, "talk_ticks": 9},
+          {"ticks": "25-50%", "answer_rate": 0.10, "talk_ticks": 6},
+          {"ticks": "50-75%", "answer_rate": 0.65, "talk_ticks": 12},
+          {"ticks": "75-100%","answer_rate": 0.40, "talk_ticks": 9}
+        ]
+      },
+      "calls_initiated": 137, "calls_connected": 45, "calls_completed": 45,
+      "calls_failed": 83, "calls_abandoned": 0,
+      "agent_utilization": 0.239, "actual_answer_rate": 0.352,
+      "avg_talk_duration_secs": 85.1, "provider_failures": 8, "duplicate_events": 1
+    },
+    {
+      "scenario": "D", "mode": "PREDICTIVE", "provider": "provider_a",
+      "config": {
+        "phases": [
+          {"ticks": "0-25%",  "answer_rate": 0.35, "talk_ticks": 9},
+          {"ticks": "25-50%", "answer_rate": 0.10, "talk_ticks": 6},
+          {"ticks": "50-75%", "answer_rate": 0.65, "talk_ticks": 12},
+          {"ticks": "75-100%","answer_rate": 0.40, "talk_ticks": 9}
+        ]
+      },
+      "calls_initiated": 135, "calls_connected": 43, "calls_completed": 43,
+      "calls_failed": 84, "calls_abandoned": 0,
+      "agent_utilization": 0.229, "actual_answer_rate": 0.339,
+      "avg_talk_duration_secs": 85.1, "provider_failures": 8, "duplicate_events": 1,
+      "safety_reductions": 83
+    },
+    {
+      "scenario": "A", "mode": "PROGRESSIVE", "provider": "provider_b",
+      "config": {"answer_rate": 0.20, "avg_talk_duration_secs": 120},
+      "calls_initiated": 69, "calls_connected": 12, "calls_completed": 12,
+      "calls_failed": 47, "calls_abandoned": 0,
+      "agent_utilization": 0.094, "actual_answer_rate": 0.203,
+      "avg_talk_duration_secs": 125.8, "provider_failures": 10, "duplicate_events": 16
+    },
+    {
+      "scenario": "A", "mode": "PREDICTIVE", "provider": "provider_b",
+      "config": {"answer_rate": 0.20, "avg_talk_duration_secs": 120},
+      "calls_initiated": 69, "calls_connected": 12, "calls_completed": 12,
+      "calls_failed": 47, "calls_abandoned": 0,
+      "agent_utilization": 0.094, "actual_answer_rate": 0.203,
+      "avg_talk_duration_secs": 125.8, "provider_failures": 10, "duplicate_events": 16,
+      "safety_reductions": 38
+    },
+    {
+      "scenario": "B", "mode": "PROGRESSIVE", "provider": "provider_b",
+      "config": {"answer_rate": 0.50, "avg_talk_duration_secs": 90},
+      "calls_initiated": 44, "calls_connected": 17, "calls_completed": 17,
+      "calls_failed": 17, "calls_abandoned": 0,
+      "agent_utilization": 0.094, "actual_answer_rate": 0.500,
+      "avg_talk_duration_secs": 88.2, "provider_failures": 9, "duplicate_events": 15
+    },
+    {
+      "scenario": "B", "mode": "PREDICTIVE", "provider": "provider_b",
+      "config": {"answer_rate": 0.50, "avg_talk_duration_secs": 90},
+      "calls_initiated": 44, "calls_connected": 17, "calls_completed": 17,
+      "calls_failed": 17, "calls_abandoned": 0,
+      "agent_utilization": 0.094, "actual_answer_rate": 0.500,
+      "avg_talk_duration_secs": 88.2, "provider_failures": 9, "duplicate_events": 15,
+      "safety_reductions": 27
+    },
+    {
+      "scenario": "C", "mode": "PROGRESSIVE", "provider": "provider_b",
+      "config": {"answer_rate": 0.70, "avg_talk_duration_secs": 180},
+      "calls_initiated": 51, "calls_connected": 27, "calls_completed": 27,
+      "calls_failed": 14, "calls_abandoned": 0,
+      "agent_utilization": 0.298, "actual_answer_rate": 0.659,
+      "avg_talk_duration_secs": 176.7, "provider_failures": 8, "duplicate_events": 22
+    },
+    {
+      "scenario": "C", "mode": "PREDICTIVE", "provider": "provider_b",
+      "config": {"answer_rate": 0.70, "avg_talk_duration_secs": 180},
+      "calls_initiated": 51, "calls_connected": 27, "calls_completed": 27,
+      "calls_failed": 14, "calls_abandoned": 0,
+      "agent_utilization": 0.298, "actual_answer_rate": 0.659,
+      "avg_talk_duration_secs": 176.7, "provider_failures": 8, "duplicate_events": 22,
+      "safety_reductions": 37
+    },
+    {
+      "scenario": "D", "mode": "PROGRESSIVE", "provider": "provider_b",
+      "config": {
+        "phases": [
+          {"ticks": "0-25%",  "answer_rate": 0.35, "talk_ticks": 9},
+          {"ticks": "25-50%", "answer_rate": 0.10, "talk_ticks": 6},
+          {"ticks": "50-75%", "answer_rate": 0.65, "talk_ticks": 12},
+          {"ticks": "75-100%","answer_rate": 0.40, "talk_ticks": 9}
+        ]
+      },
+      "calls_initiated": 57, "calls_connected": 14, "calls_completed": 14,
+      "calls_failed": 33, "calls_abandoned": 0,
+      "agent_utilization": 0.071, "actual_answer_rate": 0.298,
+      "avg_talk_duration_secs": 80.7, "provider_failures": 10, "duplicate_events": 17
+    },
+    {
+      "scenario": "D", "mode": "PREDICTIVE", "provider": "provider_b",
+      "config": {
+        "phases": [
+          {"ticks": "0-25%",  "answer_rate": 0.35, "talk_ticks": 9},
+          {"ticks": "25-50%", "answer_rate": 0.10, "talk_ticks": 6},
+          {"ticks": "50-75%", "answer_rate": 0.65, "talk_ticks": 12},
+          {"ticks": "75-100%","answer_rate": 0.40, "talk_ticks": 9}
+        ]
+      },
+      "calls_initiated": 57, "calls_connected": 14, "calls_completed": 14,
+      "calls_failed": 33, "calls_abandoned": 0,
+      "agent_utilization": 0.071, "actual_answer_rate": 0.298,
+      "avg_talk_duration_secs": 80.7, "provider_failures": 10, "duplicate_events": 17,
+      "safety_reductions": 31
+    }
+  ],
+  "load_test": {
+    "mode": "sustained",
+    "agents": 20,
+    "ticks": 120,
+    "provider_answer_rate": 0.50,
+    "provider_avg_talk_ticks": 3,
+    "total_initiated": 371,
+    "completed": 168,
+    "failed": 183,
+    "still_active": 20,
+    "measured_answer_rate": 0.479,
+    "pg_connections_after": 1,
+    "agents_recycled": true,
+    "wall_clock_seconds": 14.4
+  },
+  "safety_invariants": {
+    "abandoned_calls_all_runs": 0,
+    "rejected_by_safety_controller_all_runs": 0,
+    "note": "Safety Controller reduced predictive requests in all predictive runs; never rejected outright."
+  }
+}

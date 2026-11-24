@@ -1,0 +1,34 @@
+stateDiagram-v2
+    [*] --> QUEUED
+    QUEUED --> RESERVED : CallAllocator.allocate() — agent + borrower locked
+    RESERVED --> INITIATED : EventWorker dispatches outbox to provider
+    RESERVED --> CANCELLED : recovery (pre-initiation crash recovery)
+    INITIATED --> RINGING : RINGING event from provider
+    INITIATED --> FAILED : provider dispatch error / timeout
+    RINGING --> ANSWERED : ANSWERED event
+    RINGING --> FAILED : FAILED / BUSY / NO_ANSWER event
+    ANSWERED --> CONNECTED : CONNECTED event
+    CONNECTED --> COMPLETED : COMPLETED event
+    CONNECTED --> FAILED : FAILED event
+    COMPLETED --> [*]
+    FAILED --> [*]
+    CANCELLED --> [*]
+
+    note right of RESERVED
+        idempotency_key ensures single write
+        outbox record created atomically
+        agent.status = RESERVED
+        borrower.status = RESERVED
+    end note
+
+    note right of INITIATED
+        provider_call_id stored
+        agent.status = DIALING
+    end note
+
+    note right of COMPLETED
+        TERMINAL STATE — no further transitions
+        Late events marked is_out_of_order=true
+        agent returned to AVAILABLE
+        borrower moved to CALLED
+    end note
