@@ -1,0 +1,70 @@
+flowchart TD
+    subgraph API ["REST API (FastAPI)"]
+        A[POST /campaigns]
+        B[POST /dialer/{id}/tick]
+        C[GET /calls, /agents]
+    end
+
+    subgraph Workers ["Background Workers"]
+        DW[DialWorker\n1s interval]
+        EW[EventWorker\n500ms interval]
+        RW[RecoveryWorker\n10s interval]
+    end
+
+    subgraph Pacing ["Pacing Engine"]
+        PD[ProgressiveDialer\n1 call per available agent]
+        PP[PredictivePacingEngine\nEWMA answer-rate estimation\nraw_desired = ceil available / rate]
+    end
+
+    SC[SafetyController\nIndependent DB gate\nNever trusts pacing engine]
+
+    CA[CallAllocator\nAtomic: agent + borrower +\ncall + outbox — one transaction]
+
+    subgraph DB ["PostgreSQL"]
+        AG[agents\nstate_version OL]
+        BO[borrowers\nSELECT FOR UPDATE SKIP LOCKED]
+        CA2[calls\nstate machine]
+        OB[call_outbox\noutbox pattern]
+        PE[provider_events\nidempotency store]
+        RS[reservations\naudit trail]
+    end
+
+    subgraph Providers ["Telecom Providers"]
+        PA[Provider A\nreliable: 5% failure\n1% duplicates]
+        PB[Provider B\nchaotic: 20% failure\n15% duplicates\n20% OOO events]
+        CB[CircuitBreaker\nCLOSED → OPEN → HALF_OPEN]
+    end
+
+    EP[EventProcessor\nIdempotent state machine\nTerminal state protection]
+
+    B --> DW
+    DW --> PD
+    DW --> PP
+    PD --> SC
+    PP --> SC
+    SC -- "queries DB directly" --> AG
+    SC --> CA
+    CA -- "optimistic lock\nstate_version" --> AG
+    CA -- "SKIP LOCKED" --> BO
+    CA --> CA2
+    CA --> OB
+    CA --> RS
+
+    EW -- "polls pending outbox" --> OB
+    EW --> CB
+    CB --> PA
+    CB --> PB
+    PA --> EP
+    PB --> EP
+    EP --> CA2
+    EP --> AG
+    EP --> PE
+
+    RW -- "detects stale reservations\nage > lease_duration" --> RS
+    RW --> AG
+    RW --> CA2
+
+    style SC fill:#ff9900,color:#000
+    style CA fill:#0066cc,color:#fff
+    style EP fill:#006633,color:#fff
+    style CB fill:#993300,color:#fff

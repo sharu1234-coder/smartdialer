@@ -13,10 +13,13 @@ The key insight is **separation of concerns through architectural independence**
 The pacing engine's job is to maximize throughput. It computes:
 
 ```
-desired_calls = ceil((available_agents - in_flight_calls) / answer_rate)
+raw_desired = ceil(available_agents / effective_answer_rate)
 ```
 
-It doesn't care whether the system can actually serve those calls. It just says: "given this answer rate and this many agents, we should be dialing N calls right now."
+In-flight calls have already reserved their own agents, so they do not compete with
+`available_agents` for capacity. The pacing engine intentionally overshoots — it asks for more
+calls than currently available, knowing the Safety Controller will clamp it. It just says:
+"given this answer rate and this many free agents, we should be dialing N calls right now."
 
 This naivety is a feature. If the pacing engine also enforced limits, it would need to handle concurrency (what if another worker already reserved agents since we last checked?), circuit breaker state, and degraded provider conditions. That coupling would make both components harder to test and reason about.
 

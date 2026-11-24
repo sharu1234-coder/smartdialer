@@ -24,6 +24,9 @@ asyncio_mode = "auto"
 python_files = ["test_*.py"]
 python_classes = ["Test*"]
 python_functions = ["test_*"]
+markers = [
+    "simulation: marks simulation tests that exercise the full simulation engine",
+]
 
 [tool.setuptools.packages.find]
 where = ["."]

@@ -42,10 +42,13 @@ class PredictivePacingEngine:
     """
     Predictive pacing using EWMA (Exponentially Weighted Moving Average) for answer rate.
 
-    Formula:
-        ewma_rate = alpha * new_sample + (1 - alpha) * previous_ewma
-        capacity_buffer = available_agents - in_flight_calls
-        desired_calls = floor(capacity_buffer / estimated_answer_rate)
+    Corrected formula (bug fixed 2026-11-25):
+        ewma_rate  = alpha * new_sample + (1 - alpha) * previous_ewma
+        raw_desired = ceil(available_agents / effective_answer_rate)
+
+    In-flight calls have already reserved their own agents and do NOT compete with
+    available_agents for capacity.  The old formula subtracted in_flight from
+    available_agents, double-counting consumed capacity and producing zero in a busy system.
 
     The pacing engine REQUESTS calls — the Safety Controller APPROVES them.
     The engine never bypasses the Safety Controller.
